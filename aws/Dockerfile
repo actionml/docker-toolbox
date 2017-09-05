@@ -13,7 +13,7 @@ ARG KUBECTL_SOURCE=kubernetes-release/release
 ARG KUBECTL_TRACK=stable.txt
 
 # Additional packages for the toolbox
-RUN apk add --no-cache vim sudo
+RUN apk add --no-cache vim sudo jq fping
 
 # Install awscli & terraform
 RUN pip install awscli && \
