@@ -46,7 +46,7 @@ RUN set -ex && \
         echo "=== Built kops at ${KOPS_GITISH}, fetched kubectl ${KUBECTL_VERSION} ==="
 
 # Add entrypoint to use bash by default
-ADD ../entrypoint.sh /
+ADD ./entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Create unprivileged user
