@@ -12,8 +12,8 @@ ARG KUBECTL_SOURCE=kubernetes-release/release
 # KUBECTL_TRACK: Currently latest from KUBECTL_SOURCE. Change to latest-1.3.txt, etc. if desired.
 ARG KUBECTL_TRACK=stable.txt
 
-# Additional packages required (or useful) for the toolbox
-RUN apk add --no-cache vim sudo jq fping gettext
+# Additional packages for the toolbox
+RUN apk add --no-cache vim sudo jq fping
 
 # Install awscli & terraform
 RUN pip install awscli && apk add --no-cache groff less mailcap && \
@@ -30,10 +30,10 @@ RUN curl -SsL --retry 5 -o /usr/bin/kops https://github.com/kubernetes/kops/rele
 ADD ./entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 
-# Create unprivileged user
+# Create unprivileged user, use dedicated home (so that target user home does not overlap)
 ONBUILD RUN adduser -Du ${OBUID} -s /bin/bash ${OBUSER} && \
             echo "${OBUSER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${OBUSER} && \
             chmod 440 /etc/sudoers.d/${OBUSER}
 
-ONBUILD VOLUME ["/home/${OBUSER}"]
+ONBUILD WORKDIR ["/home/${OBUSER}"]
 ONBUILD USER ${OBUID}:${OBUID}

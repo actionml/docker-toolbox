@@ -31,12 +31,23 @@ docker build -t stackbox:aws \
 cd - && rm -rf /tmp/stackfeed-toolbox
 ```
 
-### Running container
+### Using toolbox container
 
-Since we've have a container with your "real" user, you can just start it as simple as this:
 
 ```
-docker run -it --name myboxenv1 -v $HOME:$HOME stackbox:aws
+# running:
+docker run -it --name myboxenv1 -v $HOME:/host stackbox:aws
+
+
+# starting and attaching:
+docker start myboxenv1
+docker attach myboxenv1
+
+# exec another shell process in the container
+docker exec -it myboxenv1 bash
 ```
 
-And you are in. Note that **bash is used** as the default shell, however the user's **.profile will be ignored**!
+## Notes
+
+### Toolbox volumes
+When running the toolbox container we specify volume `$HOME:/host`, so that host user's home directory is mapped to the `/host` directory in the container. **DO NOT TRY** *to map user's host home directory to user's container home directory*! This could give you some ease of use (as I supposed), but in fact it will just mess up your container's user environment.
