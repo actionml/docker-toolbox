@@ -1,8 +1,8 @@
 FROM stackfeed/alpine-python3
 
 # Unprivileged args for the target USER 
-ARG UNUSER=user
-ARG UNUID=1000
+ONBUILD ARG UNUSER=user
+ONBUILD ARG UNUID=1000
 
 ARG TF_VERSION=0.10.3
 
@@ -43,7 +43,6 @@ RUN set -ex && \
         apk del --no-cache build-dependencies && \
         \
         echo "=== Built kops at ${KOPS_GITISH}, fetched kubectl ${KUBECTL_VERSION} ==="
-
 
 # Create unprivileged user
 ONBUILD RUN adduser -Du ${UNUID} ${UNUSER}
