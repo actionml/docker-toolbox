@@ -30,3 +30,13 @@ docker build -t stackbox:aws \
 
 cd - && rm -rf /tmp/stackfeed-toolbox
 ```
+
+### Running container
+
+Since we've have a container with your "real" user, you can just start it as simple as this:
+
+```
+docker run -it --name myboxenv1 -v $HOME:$HOME stackbox:aws
+```
+
+And you are in. Note that **bash is used** as the default shell, however the user's **.profile will be ignored**!
