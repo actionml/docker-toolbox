@@ -1,8 +1,8 @@
 FROM stackfeed/alpine-python3
 
-# Unprivileged args for the target USER 
-ONBUILD ARG UNUSER=user
-ONBUILD ARG UNUID=1000
+# Unprivileged args for the target USER
+ONBUILD ARG OBUSER=user
+ONBUILD ARG OBUID=1000
 
 ARG TF_VERSION=0.10.3
 
@@ -14,11 +14,12 @@ ARG KUBECTL_SOURCE=kubernetes-release/release
 ARG KUBECTL_TRACK=stable.txt
 ARG KUBECTL_ARCH=linux/amd64
 
-# Install awscli
-RUN pip install awscli
+# Some of base packages
+RUN apk add --no-cache vim sudo
 
-# Install terraform
-RUN curl -sSL https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip -o /tmp/terraform.zip && \
+# Install awscli & terraform
+RUN pip install awscli && \
+    curl -sSL https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip -o /tmp/terraform.zip && \
        unzip /tmp/terraform.zip -d /usr/bin && rm -rf /tmp/*
 
 # Get kops and kubectl
@@ -45,7 +46,9 @@ RUN set -ex && \
         echo "=== Built kops at ${KOPS_GITISH}, fetched kubectl ${KUBECTL_VERSION} ==="
 
 # Create unprivileged user
-ONBUILD RUN adduser -Du ${UNUID} ${UNUSER}
+ONBUILD RUN adduser -Du ${OBUID} -s /bin/bash ${OBUSER} && \
+            echo "${OBUSER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${OBUSER} && \
+            chmod 440 /etc/sudoers.d/${OBUSER}
 
-ONBUILD VOLUME ["/home/${UNUSER}"]
-ONBUILD USER ${UNUID}:${UNUID}
+ONBUILD VOLUME ["/home/${OBUSER}"]
+ONBUILD USER ${OBUID}:${OBUID}
