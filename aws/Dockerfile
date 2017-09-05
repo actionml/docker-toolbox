@@ -45,6 +45,10 @@ RUN set -ex && \
         \
         echo "=== Built kops at ${KOPS_GITISH}, fetched kubectl ${KUBECTL_VERSION} ==="
 
+# Add entrypoint to use bash by default
+ADD ../entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]
+
 # Create unprivileged user
 ONBUILD RUN adduser -Du ${OBUID} -s /bin/bash ${OBUSER} && \
             echo "${OBUSER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${OBUSER} && \
