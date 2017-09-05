@@ -12,8 +12,8 @@ ARG KUBECTL_SOURCE=kubernetes-release/release
 # KUBECTL_TRACK: Currently latest from KUBECTL_SOURCE. Change to latest-1.3.txt, etc. if desired.
 ARG KUBECTL_TRACK=stable.txt
 
-# Additional packages required for the toolbox
-RUN apk add --no-cache vim sudo jq fping
+# Additional packages required (or useful) for the toolbox
+RUN apk add --no-cache vim sudo jq fping gettext
 
 # Install awscli & terraform
 RUN pip install awscli && apk add --no-cache groff less mailcap && \
