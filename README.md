@@ -12,9 +12,9 @@ The container is meant to be used with privileges of the "target" user (which is
 
 AWS toolbox contains the following tools:
 
-* Terraform **0.10.3**
-* kops **1.7.0** (*latest at the time of build*)
-* awcli (*latest at the time of build*)
+* Terraform **0.11.1**
+* kops **1.8.0**
+* awscli (*latest at the time of build*)
 
 
 ### Build dependent container (pass the desired build arguments)
