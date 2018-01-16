@@ -4,7 +4,7 @@ FROM stackfeed/alpine-python3
 ONBUILD ARG OBUSER=user
 ONBUILD ARG OBUID=1000
 
-ARG TF_VERSION=0.11.1
+ARG TF_VERSION=0.11.2
 ARG KOPS_RELEASE=1.8.0
 
 # KUBECTL_SOURCE: Change to kubernetes-dev/ci for CI
@@ -13,7 +13,7 @@ ARG KUBECTL_SOURCE=kubernetes-release/release
 ARG KUBECTL_TRACK=stable.txt
 
 # Additional packages for the toolbox
-RUN apk add --no-cache vim sudo jq fping
+RUN apk add --no-cache vim sudo jq fping make git
 
 # Install awscli & terraform
 RUN pip install awscli && apk add --no-cache groff less mailcap && \
