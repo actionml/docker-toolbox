@@ -13,10 +13,10 @@ ARG KUBECTL_SOURCE=kubernetes-release/release
 ARG KUBECTL_TRACK=stable.txt
 
 # Additional packages for the toolbox
-RUN apk add --no-cache vim sudo jq fping make git
+RUN apk add --no-cache vim sudo jq fping make git openssh-client iptables
 
 # Install awscli & terraform
-RUN pip install awscli && apk add --no-cache groff less mailcap && \
+RUN pip install awscli sshuttle && apk add --no-cache groff less mailcap && \
     curl -sSL https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip -o /tmp/terraform.zip && \
        unzip /tmp/terraform.zip -d /usr/bin && rm -rf /tmp/*
 
