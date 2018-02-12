@@ -1,3 +1,4 @@
+
 # [stackfeed/toolbox](https://hub.docker.com/r/stackfeed/toolbox/) cloud tools docker image
 
 Docker image which bundles cloud automation software used by stackfeed projects.
@@ -12,8 +13,8 @@ The container is meant to be used with privileges of the "target" user (which is
 
 AWS toolbox contains the following tools:
 
-* Terraform **0.11.1**
-* kops **1.8.0**
+* Terraform **0.11.3**
+* kops **1.8.1**
 * awscli (*latest at the time of build*)
 
 

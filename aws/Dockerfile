@@ -4,8 +4,8 @@ FROM stackfeed/alpine-python3
 ONBUILD ARG OBUSER=user
 ONBUILD ARG OBUID=1000
 
-ARG TF_VERSION=0.11.2
-ARG KOPS_RELEASE=1.8.0
+ARG TF_VERSION=0.11.3
+ARG KOPS_RELEASE=1.8.1
 
 # KUBECTL_SOURCE: Change to kubernetes-dev/ci for CI
 ARG KUBECTL_SOURCE=kubernetes-release/release
