@@ -4,7 +4,7 @@ FROM stackfeed/alpine-python3
 ONBUILD ARG OBUSER=user
 ONBUILD ARG OBUID=1000
 
-ARG TF_VERSION=0.11.3
+ARG TF_VERSION=0.11.7
 ARG KOPS_RELEASE=1.8.1
 
 # KUBECTL_SOURCE: Change to kubernetes-dev/ci for CI
@@ -35,5 +35,6 @@ ONBUILD RUN adduser -Du ${OBUID} -s /bin/bash ${OBUSER} && \
             echo "${OBUSER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${OBUSER} && \
             chmod 440 /etc/sudoers.d/${OBUSER}
 
-ONBUILD WORKDIR ["/home/${OBUSER}"]
 ONBUILD USER ${OBUID}:${OBUID}
+VOLUME ["/code"]
+WORKDIR "/code"

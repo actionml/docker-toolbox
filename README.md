@@ -1,4 +1,3 @@
-
 # [stackfeed/toolbox](https://hub.docker.com/r/stackfeed/toolbox/) cloud tools docker image
 
 Docker image which bundles cloud automation software used by stackfeed projects.
@@ -13,7 +12,7 @@ The container is meant to be used with privileges of the "target" user (which is
 
 AWS toolbox contains the following tools:
 
-* Terraform **0.11.3**
+* Terraform **0.11.7**
 * kops **1.8.1**
 * awscli (*latest at the time of build*)
 
@@ -24,10 +23,13 @@ AWS toolbox contains the following tools:
 mkdir -p /tmp/stackfeed-toolbox && cd /tmp/stackfeed-toolbox
 echo "FROM stackfeed/toolbox:aws" > Dockerfile
 
-# Change arguments to meet your specific settings!
+## Change arguments to meet your specific settings!
+#  get the current host user and userid
+user=$(id -un)
+userid=$(id -u)
 docker build -t stackbox:aws \
-             --build-arg OBUSER=denz \
-             --build-arg OBUID=1000 .
+             --build-arg OBUSER=${user} \
+             --build-arg OBUID=${userid} .
 
 cd - && rm -rf /tmp/stackfeed-toolbox
 ```
@@ -37,18 +39,18 @@ cd - && rm -rf /tmp/stackfeed-toolbox
 
 ```
 # running:
-docker run -it --name myboxenv1 -v $HOME:/host stackbox:aws
+docker run -it --name myproject -v $YOUR_PROJECT_PATH:/code stackbox:aws
 
 
 # starting and attaching:
-docker start myboxenv1
-docker attach myboxenv1
+docker start myproject
+docker attach myproject
 
 # exec another shell process in the container
-docker exec -it myboxenv1 bash
+docker exec -it myproject bash
 ```
 
 ## Notes
 
 ### Toolbox volumes
-When running the toolbox container we specify volume `$HOME:/host`, so that host user's home directory is mapped to the `/host` directory in the container. **DO NOT TRY** *to map user's host home directory to user's container home directory*! This could give you some ease of use (as I supposed), but in fact it will just mess up your container's user environment.
+When running the toolbox container we specify the **code** volume it's used to pass your project code into the toolbox container. Also the `/code` directory is set as the WORKDIR for convenience.
