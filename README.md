@@ -20,16 +20,18 @@ AWS toolbox contains the following tools:
 ### Build dependent container (pass the desired build arguments)
 
 ```
+# Provide host UID and GID for the build
+_USER=$(id -un)
+_UID=$(id -u)
+_GID=$(id -g)
+
 mkdir -p /tmp/stackfeed-toolbox && cd /tmp/stackfeed-toolbox
 echo "FROM stackfeed/toolbox:aws" > Dockerfile
 
-## Change arguments to meet your specific settings!
-#  get the current host user and userid
-user=$(id -un)
-userid=$(id -u)
-docker build -t stackbox:aws \
-             --build-arg OBUSER=${user} \
-             --build-arg OBUID=${userid} .
+docker build --no-cache -t stackbox:aws \
+             --build-arg _USER=${_USER} \
+             --build-arg _UID=${_UID} \
+             --build-arg _GID=${_GID} .
 
 cd - && rm -rf /tmp/stackfeed-toolbox
 ```
